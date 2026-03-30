@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Paradox Key Generator</title>
+</head>
+<body>
+<h1>Paradox Key Generator</h1>
+<p>Step 1: Complete the Work.ink link</p>
+<a href="https://work.ink/YOUR_LINK" target="_blank">Go to Work.ink</a>
+<p>Step 2: Enter your HWID</p>
+<input type="text" id="hwid" placeholder="Enter your HWID">
+<button onclick="getKey()">Generate Key</button>
+<p id="output"></p>
+
+<script>
+async function getKey() {
+    const hwid = document.getElementById("hwid").value;
+    if(!hwid) return alert("Enter your HWID first!");
+    const response = await fetch(`/api/generate?hwid=${hwid}&verified=true`);
+    const key = await response.text();
+    document.getElementById("output").innerText = "Your Key: " + key + "\nShow this to Paradox staff for authorization.";
+}
+</script>
+</body>
+</html>
