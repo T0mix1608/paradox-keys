@@ -12,12 +12,11 @@
 <input type="text" id="hwid" placeholder="Enter your HWID">
 <button onclick="getKey()">Generate Key</button>
 <p id="output"></p>
-
 <script>
 async function getKey() {
-    const hwid = document.getElementById("hwid").value;
-    if(!hwid) return alert("Enter your HWID first!");
-    const response = await fetch(`/api/generate?hwid=${hwid}&verified=true`);
+    const hwidInput = document.getElementById("hwid").value;
+    if(!hwidInput) return alert("Enter your HWID first!");
+    const response = await fetch(`/api/generate?hwid=${hwidInput}&verified=true`);
     const key = await response.text();
     document.getElementById("output").innerText = "Your Key: " + key + "\nShow this to Paradox staff for authorization.";
 }
