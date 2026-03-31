@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Generator</title>
+<style>
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#0f172a;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+margin:0;
+}
+.container{
+background:#111827;
+padding:30px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+button{
+padding:10px 20px;
+border:none;
+border-radius:8px;
+background:#3b82f6;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+button:disabled{
+background:#374151;
+cursor:not-allowed;
+}
+.code{
+margin-top:20px;
+font-size:24px;
+font-weight:bold;
+color:#22c55e;
+}
+.timer{
+margin-top:10px;
+color:#f87171;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Random Code Generator</h2>
+<button id="generate">Generate Code</button>
+<div class="code" id="code"></div>
+<div class="timer" id="timer"></div>
+</div>
+
+<script>
+const btn=document.getElementById("generate")
+const codeEl=document.getElementById("code")
+const timerEl=document.getElementById("timer")
+
+const cooldown=24*60*60*1000
+const last=localStorage.getItem("lastGen")
+const savedCode=localStorage.getItem("savedCode")
+
+function randomCode(){
+return Math.random().toString(36).substring(2,10).toUpperCase()
+}
+
+function updateTimer(){
+const now=Date.now()
+const diff=now-last
+if(diff<cooldown){
+const remaining=cooldown-diff
+const h=Math.floor(remaining/3600000)
+const m=Math.floor((remaining%3600000)/60000)
+const s=Math.floor((remaining%60000)/1000)
+timerEl.textContent="Come back in "+h+"h "+m+"m "+s+"s"
+btn.disabled=true
+}else{
+timerEl.textContent=""
+btn.disabled=false
+}
+}
+
+if(last && Date.now()-last<cooldown){
+codeEl.textContent=savedCode
+setInterval(updateTimer,1000)
+updateTimer()
+}
+
+btn.onclick=()=>{
+const code=randomCode()
+localStorage.setItem("lastGen",Date.now())
+localStorage.setItem("savedCode",code)
+codeEl.textContent=code
+updateTimer()
+setInterval(updateTimer,1000)
+}
+</script>
+</body>
+</html>
