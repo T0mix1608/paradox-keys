@@ -41,6 +41,11 @@ button:disabled{
   font-weight:bold;
   color:#22c55e;
 }
+.message{
+  margin-top:10px;
+  font-size:16px;
+  color:#fbbf24;
+}
 .timer{
   margin-top:10px;
   color:#f87171;
@@ -52,6 +57,7 @@ button:disabled{
 <h2>Daily Code Generator</h2>
 <button id="generate">Generate Code</button>
 <div class="code" id="code"></div>
+<div class="message" id="message"></div>
 <div class="timer" id="timer"></div>
 </div>
 
@@ -59,6 +65,7 @@ button:disabled{
 const btn = document.getElementById("generate");
 const codeEl = document.getElementById("code");
 const timerEl = document.getElementById("timer");
+const messageEl = document.getElementById("message");
 
 const cooldown = 24 * 60 * 60 * 1000; // 24 hours
 let lastGen = localStorage.getItem("lastGen");
@@ -87,6 +94,7 @@ function updateTimer() {
 // Initialize on page load
 if(lastGen && Date.now() - lastGen < cooldown){
   codeEl.textContent = savedCode;
+  messageEl.textContent = "Show this to Legit Mods Staff in Support";
   updateTimer();
   setInterval(updateTimer, 1000);
 }
@@ -98,6 +106,7 @@ btn.onclick = () => {
   lastGen = Date.now();
   savedCode = code;
   codeEl.textContent = code;
+  messageEl.textContent = "Show this to Legit Mods Staff in Support";
   updateTimer();
   setInterval(updateTimer, 1000);
 }
